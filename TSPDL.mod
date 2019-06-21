@@ -1,4 +1,5 @@
-/* 
+/* Instância pequena do TSPDL para testar formulação
+ *
  * Modelagem em MathProg do Traveling Salesman Problem with Draft Limits
  * 
  * Para resolver, execute a seguinte linha de comando.
@@ -15,12 +16,16 @@
  */
 
 # Conjuntos
+# conjunto de portos 
 set V;
-set Vg := { 1 };
-set Vc := V \ Vg;
-/* conjunto V de portos */
 
-# Parâmetros 
+# garagem em V = 1
+set Vg := { 1 };
+
+# conjunto dos portos consumidores
+set Vc := V diff Vg;
+
+# Parâmetros
 param d{j in V};
 /* parâmetro de cada porto com uma demanda >= 0 */
 
@@ -54,10 +59,10 @@ s.t. c3 {j in Vc}: sum{i in V} y[i,j] - sum{i in V} y[j,i] = d[j];
 s.t. c4: sum{j in V} y[1,j] = sum{i in Vc} d[i];
 /* restrição 22 */
 
-s.t. c7: sum{i in V} y[i,1] = 0;
+s.t. c5: sum{i in V} y[i,1] = 0;
 /* restrição 23 */ 
 
-s.t. c9 {i in V, j in V}: y[i,j] <= l[j] * x[i,j]; 
+s.t. c6 {i in V, j in V}: y[i,j] <= l[j] * x[i,j]; 
 /* restrição 24 */
 
 end;
