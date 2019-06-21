@@ -1,8 +1,6 @@
+data; 
+
 set V := 1 B C;
-
-#set Vg := A;
-
-#set Vc := B C;
 
 param d := 
 	1 0
@@ -24,4 +22,6 @@ param custo :=
 	C 1 8
 	C B 9
 	C C 0;
+
+end;
 	
