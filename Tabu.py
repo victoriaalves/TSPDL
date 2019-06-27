@@ -7,6 +7,5 @@ class Tabu:
         self.max_iterations = max_iterations
 
     def run(self, seed):
-        print(self.tspdl.generate_initial_solution())
-
-
+        initial_solution = self.tspdl.generate_initial_solution()
+        print(self.tspdl.get_cost_from_solution(initial_solution))

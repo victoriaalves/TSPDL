@@ -49,3 +49,10 @@ class TSPDL:
                 cheapest_route_index = i
         return cheapest_route_index
 
+    def get_cost_from_solution(self, solution):
+        total_cost = 0
+        print(solution)
+        for i in range(0, len(solution) - 1):
+            total_cost = total_cost + int(self.instance['cost'][solution[i]][solution[i+1]])
+            print(self.instance['cost'][solution[i]][solution[i+1]])
+        return total_cost
