@@ -1,4 +1,9 @@
+import random
+
 MOST_EXPENSIVE_ROUTE = 1000
+
+import copy
+
 
 class TSPDL:
     def __init__(self, instance):
@@ -25,8 +30,6 @@ class TSPDL:
 
         return solution
 
-
-
     def get_total_demand(self):
         total = 0
         for value in self.instance['demand']:
@@ -51,8 +54,18 @@ class TSPDL:
 
     def get_cost_from_solution(self, solution):
         total_cost = 0
-        print(solution)
         for i in range(0, len(solution) - 1):
             total_cost = total_cost + int(self.instance['cost'][solution[i]][solution[i+1]])
-            print(self.instance['cost'][solution[i]][solution[i+1]])
         return total_cost
+
+    def get_neighbors(self, seed, number_of_neighbors, solution):
+        random.seed(seed)
+        neighbors = []
+        for _ in range(0, number_of_neighbors):
+            swap = random.sample(range(1, len(solution) - 2), 2)
+            new_neighbor = copy.deepcopy(solution)
+            aux = new_neighbor[swap[0]]
+            new_neighbor[swap[0]] = new_neighbor[swap[1]]
+            new_neighbor[swap[1]] = aux
+            neighbors.append(new_neighbor)
+        return neighbors
