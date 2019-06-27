@@ -9,7 +9,7 @@ def skip(lines, fp):
 def read_tspdl_instance(filepath):
     inst = {}
     inst["filename"] = filepath.split("/")[-1]
-    print(inst["filename"])
+    print(f'Reading file {inst["filename"]}')
     with open(filepath, 'r') as fp:
         skip(4, fp)
         inst["number_of_ports"] = int(fp.readline().split()[1])
