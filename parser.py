@@ -7,6 +7,28 @@ def skip(lines, fp):
         fp.readline()
 
 def read_tspdl_instance(filepath):
+    with open(filepath, 'r') as fp:
+        if "!" in fp.readline():
+            return read_tspdl_instance_type1(filepath)
+        return read_tspdl_instance_type2(filepath)
+
+def read_tspdl_instance_type2(filepath):
+    inst = {}
+    inst["filename"] = filepath.split("/")[-1]
+    print(f'Reading file {inst["filename"]}')
+    with open(filepath, 'r') as fp:
+        inst["number_of_ports"] = int(fp.readline())
+
+        inst["cost"] = []
+        for _ in range(inst["number_of_ports"]):
+            inst["cost"].append(fp.readline().split())
+
+        inst["demand"] = fp.readline().split()
+
+        inst["draft"] = fp.readline().split()
+    return inst
+
+def read_tspdl_instance_type1(filepath):
     inst = {}
     inst["filename"] = filepath.split("/")[-1]
     print(f'Reading file {inst["filename"]}')
