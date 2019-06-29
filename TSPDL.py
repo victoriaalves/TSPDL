@@ -58,16 +58,23 @@ class TSPDL:
             total_cost = total_cost + int(self.instance['cost'][solution[i]][solution[i+1]])
         return total_cost
 
-    def get_all_neighbors(self, solution):
+    def get_all_valid_neighbors(self, solution):
         swap_candidates = list(itertools.combinations(range(1, len(solution) - 1), 2))
-        print(swap_candidates)
         neighbors = []
-        
         for i in range(0, len(swap_candidates)):
             new_neighbor = copy.deepcopy(solution)
             aux = new_neighbor[swap_candidates[i][0]]
             new_neighbor[swap_candidates[i][0]] = new_neighbor[swap_candidates[i][1]]
             new_neighbor[swap_candidates[i][1]] = aux
-            neighbors.append(new_neighbor)
-
+            if self.is_valid(new_neighbor):
+                neighbors.append(new_neighbor)
         return neighbors
+
+    def is_valid(self, solution):
+        current_demand = self.get_total_demand()
+        for i in range(1, len(solution)):
+            if int(self.instance['draft'][solution[i]]) < current_demand:
+                return False
+            current_demand = current_demand - int(self.instance['demand'][solution[i]])
+        return True
+
