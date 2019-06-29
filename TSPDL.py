@@ -1,9 +1,11 @@
 import random
 import copy
 import itertools
+from collections import namedtuple
 
 MOST_EXPENSIVE_ROUTE = 1000
 
+Neighbor = namedtuple('Neighbor', 'solution swap')
 
 class TSPDL:
     def __init__(self, instance):
@@ -58,8 +60,12 @@ class TSPDL:
             total_cost = total_cost + int(self.instance['cost'][solution[i]][solution[i+1]])
         return total_cost
 
-    def get_all_valid_neighbors(self, solution):
+    def get_all_valid_neighbors(self, solution, ilegal_moves):
         swap_candidates = list(itertools.combinations(range(1, len(solution) - 1), 2))
+        for move in ilegal_moves:
+            if move is not None:
+                swap_candidates.remove(move)
+
         neighbors = []
         for i in range(0, len(swap_candidates)):
             new_neighbor = copy.deepcopy(solution)
@@ -67,7 +73,7 @@ class TSPDL:
             new_neighbor[swap_candidates[i][0]] = new_neighbor[swap_candidates[i][1]]
             new_neighbor[swap_candidates[i][1]] = aux
             if self.is_valid(new_neighbor):
-                neighbors.append(new_neighbor)
+                neighbors.append(Neighbor(new_neighbor, swap_candidates[i]))
         return neighbors
 
     def is_valid(self, solution):
@@ -77,4 +83,5 @@ class TSPDL:
                 return False
             current_demand = current_demand - int(self.instance['demand'][solution[i]])
         return True
+
 
