@@ -3,7 +3,7 @@ import copy
 import itertools
 from collections import namedtuple
 
-MOST_EXPENSIVE_ROUTE = 1000
+MOST_EXPENSIVE_ROUTE = 10000000000
 
 Neighbor = namedtuple('Neighbor', 'solution swap')
 
@@ -15,8 +15,10 @@ class TSPDL:
         all_ports = range(0, int(self.instance["number_of_ports"]))
         solution = []
         solution.append(0)
+        
         # Starting from garage
         current_demand = self.get_total_demand()
+        print(f'Current demand: {current_demand}')
         eligible_ports = self.find_eligible_ports(current_demand, [x for x in all_ports if x not in solution])
         next_port = self.find_cheapest_route(0, eligible_ports)
         solution.append(next_port)
@@ -46,6 +48,7 @@ class TSPDL:
         return eligible_drafts
 
     def find_cheapest_route(self, origin, candidates):
+        #print(f'Origin: {origin}, candidates: {candidates}')
         cheapest_route = MOST_EXPENSIVE_ROUTE
         cheapest_route_index = -1
         for i in candidates:
@@ -74,6 +77,7 @@ class TSPDL:
             new_neighbor[swap_candidates[i][1]] = aux
             if self.is_valid(new_neighbor):
                 neighbors.append(Neighbor(new_neighbor, swap_candidates[i]))
+        
         return neighbors
 
     def is_valid(self, solution):
