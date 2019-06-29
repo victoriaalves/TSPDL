@@ -1,8 +1,8 @@
 import random
+import copy
+import itertools
 
 MOST_EXPENSIVE_ROUTE = 1000
-
-import copy
 
 
 class TSPDL:
@@ -58,14 +58,16 @@ class TSPDL:
             total_cost = total_cost + int(self.instance['cost'][solution[i]][solution[i+1]])
         return total_cost
 
-    def get_neighbors(self, seed, number_of_neighbors, solution):
-        random.seed(seed)
+    def get_all_neighbors(self, solution):
+        swap_candidates = list(itertools.combinations(range(1, len(solution) - 1), 2))
+        print(swap_candidates)
         neighbors = []
-        for _ in range(0, number_of_neighbors):
-            swap = random.sample(range(1, len(solution) - 2), 2)
+        
+        for i in range(0, len(swap_candidates)):
             new_neighbor = copy.deepcopy(solution)
-            aux = new_neighbor[swap[0]]
-            new_neighbor[swap[0]] = new_neighbor[swap[1]]
-            new_neighbor[swap[1]] = aux
+            aux = new_neighbor[swap_candidates[i][0]]
+            new_neighbor[swap_candidates[i][0]] = new_neighbor[swap_candidates[i][1]]
+            new_neighbor[swap_candidates[i][1]] = aux
             neighbors.append(new_neighbor)
+
         return neighbors

@@ -10,4 +10,4 @@ class Tabu:
         initial_solution = self.tspdl.generate_initial_solution()
         print(initial_solution)
         self.tspdl.get_cost_from_solution(initial_solution)
-        print(self.tspdl.get_neighbors(seed, 10, initial_solution))
+        print(self.tspdl.get_all_neighbors(initial_solution))
